@@ -1,0 +1,7 @@
+neutron:
+  MYSQL_NEUTRON_USER: neutron
+  MYSQL_NEUTRON_PASS: Uop3eeShoo9aange 
+  MYSQL_NEUTRON_DBNAME: neutron
+  AUTH_NEUTRON_USER: neutron
+  AUTH_NEUTRON_PASS: Suk3wae0Azet7ooW
+  METADATA_SECRET: ohGeequ2eiXi5Ail

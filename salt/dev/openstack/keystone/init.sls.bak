@@ -1,0 +1,50 @@
+include:
+  - dev.openstack.keystone.keystone-init
+  - dev.openstack.keystone.service
+  - dev.openstack.keystone.db
+
+salt://dev/openstack/keystone/env.sh:
+  cmd.script:
+    - template: jinja
+    - defaults:
+      OS_TOKEN: {{ salt['pillar.get']('keystone:ADMIN_TOKEN')  }}
+      OS_URL: {{ salt['pillar.get']('keystone_endpoint') }}
+      
+keystone-service:
+  keystone.service_present:
+    - name: keystone
+    - service_type: identity
+    - description: OpenStack Identity 
+
+keystone-endpoint:
+  keystone.endpoint_present:
+    - name: identity
+    - publicurl: http://{{ grains['host'] }}:5000/v2.0
+    - internalurl: http://{{ grains['host'] }}:5000/v2.0
+    - adminurl: http://{{ grains['host'] }}:35357/v2.0
+    - region: RegionOne
+
+keystone-project1:
+  cmd.run:
+    - name: openstack project create --domain default  --description "Admin Project" admin
+
+keystone-project2:
+  cmd.run:
+    - name: openstack project create --domain default  --description "Service Project" service
+
+keystone-user:
+  keystone.user_present:
+    - name: {{ salt['pillar.get']('keystone:ADMIN_USER','admin') }}
+    - password: {{ salt['pillar.get']('keystone:ADMIN_PASS') }}
+    - roles:
+      admin:
+        - admin
+    - require:
+      - keystone: keystone-project1
+      - keystone: keystone-role
+
+keystone-role:
+  keystone.role_present:
+    - name: admin
+
+

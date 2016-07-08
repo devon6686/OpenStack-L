@@ -1,0 +1,55 @@
+{% set NETWORK_TYPE= salt['pillar.get']('basic:neutron:TYPE')  %}
+[DEFAULT]
+core_plugin = ml2
+allow_overlapping_ips = True
+rpc_backend = rabbit
+auth_strategy = keystone
+notify_nova_on_port_status_changes = True
+notify_nova_on_port_data_changes = True
+nova_url = http://{{ HOST }}:8774/v2
+verbose = False
+{% if NETWORK_TYPE == 'self' %}
+service_plugins = router
+{% endif %}
+
+{% if NETWORK_TYPE == 'provider' %}
+service_plugins = 
+{% endif %}
+
+[matchmaker_redis]
+[matchmaker_ring]
+[quotas]
+[agent]
+[keystone_authtoken]
+auth_uri = http://{{ HOST }}:5000
+auth_url = http://{{ HOST }}:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ AUTH_NEUTRON_USER }}
+password = {{ AUTH_NEUTRON_PASS }}
+
+[database]
+connection = mysql://{{ MYSQL_NEUTRON_USER }}:{{ MYSQL_NEUTRON_PASS  }}@{{ HOST }}/{{ MYSQL_NEUTRON_DBNAME }}
+[nova]
+auth_url = http://{{ HOST }}:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+region_name = RegionOne
+project_name = service
+username = nova
+password = {{ AUTH_NOVA_PASS }}
+
+[oslo_concurrency]
+lock_path = /var/lib/neutron/tmp
+
+[oslo_policy]
+[oslo_messaging_amqp]
+[oslo_messaging_qpid]
+[oslo_messaging_rabbit]
+rabbit_host = {{ RABBIT_HOST }}
+rabbit_userid = {{ RABBIT_USER }}
+rabbit_password = {{ RABBIT_PASS }}
+[qos]

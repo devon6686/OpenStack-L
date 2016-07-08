@@ -1,0 +1,34 @@
+[DEFAULT]
+notification_driver = noop
+verbose = True
+[database]
+connection = mysql://{{ MYSQL_GLANCE_USER }}:{{ MYSQL_GLANCE_PASS }}@{{ HOST }}/{{ MYSQL_GLANCE_DBNAME }}
+
+[glance_store]
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images/
+
+[image_format]
+[keystone_authtoken]
+auth_uri = http://{{ HOST }}:5000
+auth_url = http://{{ HOST }}:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ AUTH_GLANCE_USER }}
+password = {{ AUTH_GLANCE_PASS }}
+
+[matchmaker_redis]
+[matchmaker_ring]
+[oslo_concurrency]
+[oslo_messaging_amqp]
+[oslo_messaging_qpid]
+[oslo_messaging_rabbit]
+[oslo_policy]
+[paste_deploy]
+flavor = keystone
+
+[store_type_location_strategy]
+[task]
+[taskflow_executor]

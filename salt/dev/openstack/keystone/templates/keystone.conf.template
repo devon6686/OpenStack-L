@@ -1,0 +1,53 @@
+[DEFAULT]
+verbose = True
+admin_token = {{ ADMIN_TOKEN }}
+
+[assignment]
+[auth]
+[cache]
+[catalog]
+[cors]
+[cors.subdomain]
+[credential]
+[database]
+connection = mysql://{{ MYSQL_KEYSTONE_USER }}:{{ MYSQL_KEYSTONE_PASS }}@{{ HOST }}/{{ MYSQL_KEYSTONE_DBNAME }}
+
+[domain_config]
+[endpoint_filter]
+[endpoint_policy]
+[eventlet_server]
+[eventlet_server_ssl]
+[federation]
+[fernet_tokens]
+[identity]
+[identity_mapping]
+[kvs]
+[ldap]
+[matchmaker_redis]
+[matchmaker_ring]
+[memcache]
+servers = localhost:11211
+
+[oauth1]
+[os_inherit]
+[oslo_messaging_amqp]
+[oslo_messaging_qpid]
+[oslo_messaging_rabbit]
+[oslo_middleware]
+[oslo_policy]
+[paste_deploy]
+[policy]
+[resource]
+[revoke]
+driver = sql
+
+[role]
+[saml]
+[signing]
+[ssl]
+[token]
+provider = uuid
+driver = memcache
+
+[tokenless_auth]
+[trust]

@@ -1,0 +1,23 @@
+{% set NETWORK_TYPE = salt['pillar.get']('basic:neutron:TYPE') %}
+
+[linux_bridge]
+physical_interface_mappings = public:{{ PUBLIC_INTERFACE }}
+
+[agent]
+prevent_arp_spoofing = True
+
+[securitygroup]
+enable_security_group = True
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+
+{% if NETWORK_TYPE == 'self' %}
+[vxlan]
+enable_vxlan = True
+local_ip = {{ LOCAL_IP }}
+l2_population = True
+{% endif %}
+
+{% if NETWORK_TYPE == 'provider' %}
+[vxlan]
+enable_vxlan = False
+{% endif %}

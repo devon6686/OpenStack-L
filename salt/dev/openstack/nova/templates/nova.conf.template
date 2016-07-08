@@ -1,0 +1,86 @@
+[DEFAULT]
+rpc_backend = rabbit
+auth_strategy = keystone
+my_ip = {{ HOST_IP }}
+network_api_class = nova.network.neutronv2.api.API
+security_group_api = neutron
+linuxnet_interface_driver = nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+enabled_apis=osapi_compute,metadata
+verbose = True
+
+[api_database]
+[barbican]
+[cells]
+[cinder]
+os_region_name = RegionOne
+
+[conductor]
+[cors]
+[cors.subdomain]
+[database]
+connection = mysql://{{ MYSQL_NOVA_USER }}:{{ MYSQL_NOVA_PASS }}@{{ HOST }}/{{ MYSQL_NOVA_DBNAME }}
+[ephemeral_storage_encryption]
+[glance]
+host = {{ HOST }}
+[guestfs]
+[hyperv]
+[image_file_url]
+[ironic]
+[keymgr]
+[keystone_authtoken]
+auth_uri = http://{{ HOST }}:5000
+auth_url = http://{{ HOST }}:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ AUTH_NOVA_USER }}
+password = {{ AUTH_NOVA_PASS }}
+
+[libvirt]
+virt_type = kvm
+
+[matchmaker_redis]
+[matchmaker_ring]
+[metrics]
+[neutron]
+url = http://{{ HOST }}:9696
+auth_url = http://{{ HOST }}:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+region_name = RegionOne
+project_name = service
+username = {{ AUTH_NEUTRON_USER }}
+password = {{ AUTH_NEUTRON_PASS }}
+
+service_metadata_proxy = True
+metadata_proxy_shared_secret = {{ METADATA_SECRET }}
+
+[osapi_v21]
+[oslo_concurrency]
+lock_path = /var/lib/nova/tmp
+
+[oslo_messaging_rabbit]
+rabbit_host = {{ RABBIT_HOST }}
+rabbit_userid = {{ RABBIT_USER }}
+rabbit_password = {{ RABBIT_PASS }}
+
+[oslo_middleware]
+[rdp]
+[serial_console]
+[spice]
+[ssl]
+[trusted_computing]
+[upgrade_levels]
+[vmware]
+[vnc]
+vncserver_proxyclient_address = $my_ip
+enabled = True
+vncserver_listen = 0.0.0.0
+novncproxy_base_url = http://{{ HOST_IP }}:6080/vnc_auto.html
+
+[workarounds]
+[xenserver]
+[zookeeper]
